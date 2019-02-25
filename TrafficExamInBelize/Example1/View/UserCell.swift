@@ -10,9 +10,10 @@ import Foundation
 import UIKit
 import Firebase
 import Lottie
+import Charts
 
 enum Comment: String{
-    case wellDone = "Well done, you finish all questions 😃"
+    case wellDone = "Well done 😃"
     case cheerUp = "Cheer up ☺️"
 }
 
@@ -23,7 +24,7 @@ protocol UserCellDelegate {
 
 class UserCell: BasicCell {
     var userCellDelegate: UserCellDelegate?
-//    var scoreDataEntry: ScoreDataEntry?
+    var scoreDataEntry: ScoreDataEntry?
     var comment: String?{
         didSet{
             guard let comment = comment else {return}
@@ -34,7 +35,7 @@ class UserCell: BasicCell {
     var user: BelizeUser?{
         didSet{
             guard let user = user else {return}
-//            setupDataEntryProperties(user: user)
+            setupDataEntryProperties(user: user)
             givingComment(user: user)
         }
     }
@@ -47,11 +48,11 @@ class UserCell: BasicCell {
         return label
     }()
     
-//    lazy var pieChartView: PieChartView = {
-//       let pcv = PieChartView()
-//        pcv.chartDescription?.text = ""
-//       return pcv
-//    }()
+    lazy var pieChartView: PieChartView = {
+       let pcv = PieChartView()
+        pcv.chartDescription?.text = ""
+       return pcv
+    }()
     
     lazy var fireworkAnimationView: LOTAnimationView = {
         let animationView = LOTAnimationView()
@@ -80,23 +81,23 @@ class UserCell: BasicCell {
         userCellDelegate?.scrollToStart()
     }
     
-//    fileprivate func submitScores(user: BelizeUser){
-//        let values = [
-//            "correct_counts" : user.correct,
-//            "wrong_counts" : user.wrong,
-//            "creationDate" : Date().timeIntervalSince1970
-//            ] as [String : Any]
-//        let dbRef = Database.database().reference().child("scores").childByAutoId()
-//        dbRef.updateChildValues(values) { (error, reference) in
-//            if let err = error{
-//                print("Failed to update grades into DB: ", err)
-//                return
-//            }
-//            print("Successfully to update comment into DB!")
-//            print(reference)
-//        }
-//        
-//    }
+    fileprivate func submitScores(user: BelizeUser){
+        let values = [
+            "correct_counts" : user.correct,
+            "wrong_counts" : user.wrong,
+            "creationDate" : Date().timeIntervalSince1970
+            ] as [String : Any]
+        let dbRef = Database.database().reference().child("scores").childByAutoId()
+        dbRef.updateChildValues(values) { (error, reference) in
+            if let err = error{
+                print("Failed to update grades into DB: ", err)
+                return
+            }
+            print("Successfully to update comment into DB!")
+            print(reference)
+        }
+        
+    }
     
     func setupScrollToStartButton(){
         addSubview(scrollToStartAndResetUserButton)
@@ -114,54 +115,60 @@ class UserCell: BasicCell {
         }
     }
     
-//    fileprivate func setupDataEntryProperties(user: BelizeUser){
-//        scoreDataEntry = ScoreDataEntry.init(correctNum: Double(user.correct), wrongNum: Double(user.wrong))
-//        guard let scoreDataEntry = scoreDataEntry else {return}
-//        scoreDataEntry.correctDataEntry.label = "Correct"
-//        scoreDataEntry.wrongDataEntry.label = "Incorrect"
-//        updateChartData()
-//        pieChartView.alpha = 0.0
-//        commentLabel.alpha = 0.0
-//        UIView.animate(withDuration: 3.0, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {[weak self] in
-//            self?.pieChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
-//            self?.commentLabel.alpha = 1.0
-//            self?.pieChartView.alpha = 1.0
-//        }) { (_) in
-//
-//        }
-//    }
+    fileprivate func setupDataEntryProperties(user: BelizeUser){
+        scoreDataEntry = ScoreDataEntry.init(correctNum: Double(user.correct), wrongNum: Double(user.wrong))
+        guard let scoreDataEntry = scoreDataEntry else {return}
+        scoreDataEntry.correctDataEntry.label = "Correct"
+        scoreDataEntry.wrongDataEntry.label = "Incorrect"
+        updateChartData()
+        pieChartView.alpha = 0.0
+        commentLabel.alpha = 0.0
+        UIView.animate(withDuration: 3.0, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {[weak self] in
+            self?.pieChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
+            self?.commentLabel.alpha = 1.0
+            self?.pieChartView.alpha = 1.0
+        }) { (_) in
+
+        }
+    }
     
-//    fileprivate func setupPieChartView(){
-//        addSubview(pieChartView)
-//        pieChartView.centerAnchor(superView: self, width: 500, height: 500)
-//    }
+    fileprivate func setupPieChartView(){
+        addSubview(pieChartView)
+        pieChartView.centerAnchor(superView: self, width: UIScreen.main.bounds.width - 20, height: UIScreen.main.bounds.width - 20)
+    }
 //
 //
-//    fileprivate func updateChartData(){
-//        guard let scoreDataEntry = scoreDataEntry else {return}
-//        let chartDataSet = PieChartDataSet(values: scoreDataEntry.dataEntries, label: nil)
-//        let chartData = PieChartData(dataSet: chartDataSet)
-//        let colors = [UIColor(named: "correctColor"), UIColor(named: "wrongColor")]
-//        chartDataSet.colors = colors as! [NSUIColor]
-//        pieChartView.data = chartData
-//    }
+    fileprivate func updateChartData(){
+        guard let scoreDataEntry = scoreDataEntry else {return}
+        let chartDataSet = PieChartDataSet(values: scoreDataEntry.dataEntries, label: nil)
+        let chartData = PieChartData(dataSet: chartDataSet)
+        let colors = [UIColor(named: "correctColor"), UIColor(named: "wrongColor")]
+        chartDataSet.colors = colors as! [NSUIColor]
+        pieChartView.data = chartData
+    }
 //
-//    fileprivate func setupCommentLabel(){
-//        addSubview(commentLabel)
-////        commentLabel.backgroundColor = .red
-//        commentLabel.anchor(top: nil, bottom: pieChartView.topAnchor, left: leftAnchor, right: rightAnchor, topPadding: 0, bottomPadding: 20, leftPadding: 20, rightPadding: 20, width: 0, height: 40)
-//    }
-//    fileprivate func setupFireworksAnimationView(){
-//        addSubview(fireworkAnimationView)
-//        fireworkAnimationView.anchor(top: nil, bottom: bottomAnchor, left: nil, right: rightAnchor, topPadding: 0, bottomPadding: 40, leftPadding: 0, rightPadding: 10, width: 60, height: 60)
-//        fireworkAnimationView.play()
-//    }
+    fileprivate func setupCommentLabel(){
+        addSubview(commentLabel)
+//        commentLabel.backgroundColor = .red
+        commentLabel.anchor(top: nil, bottom: pieChartView.topAnchor, left: leftAnchor, right: rightAnchor, topPadding: 0, bottomPadding: 20, leftPadding: 20, rightPadding: 20, width: 0, height: 40)
+    }
+    
+    fileprivate func setupFireworksAnimationView(){
+        addSubview(fireworkAnimationView)
+        fireworkAnimationView.translatesAutoresizingMaskIntoConstraints = false
+        fireworkAnimationView.centerXAnchor.constraint(equalTo: pieChartView.centerXAnchor).isActive = true
+        fireworkAnimationView.centerYAnchor.constraint(equalTo: pieChartView.centerYAnchor).isActive = true
+        fireworkAnimationView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width).isActive = true
+        fireworkAnimationView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width).isActive = true
+//        fireworkAnimationView.anchor(top: pieC, bottom: bottomAnchor, left: nil, right: rightAnchor, topPadding: 0, bottomPadding: 40, leftPadding: 0, rightPadding: 10, width: 60, height: 60)
+        fireworkAnimationView.play()
+    }
     
     override func setupViews() {
-//        setupPieChartView()
+        setupPieChartView()
         setupScrollToStartButton()
-//        setupCommentLabel()
-//        setupFireworksAnimationView()
+        setupCommentLabel()
+        setupFireworksAnimationView()
         
     }
 }

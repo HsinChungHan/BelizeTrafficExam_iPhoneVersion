@@ -57,8 +57,8 @@ class Example1Cell:  BasicCell{
     fileprivate func randomSetTitle(allAnsers: [String]){
         getRandomNumberDelegate = self
         guard let randomNums = getRandomNumberDelegate?.getRandomNumber() else {return}
-        for answerIndex in randomNums{
-            answerButtons[answerIndex].setTitle(allAnsers[answerIndex], for: .normal)
+        for (index, value) in randomNums.enumerated(){
+            answerButtons[index].setTitle(allAnsers[value], for: .normal)
         }
     }
     
@@ -290,12 +290,6 @@ class Example1Cell:  BasicCell{
     }
     
 }
-
-
-
-
-
-
 
 
 

@@ -56,7 +56,6 @@ class Example1ViewController: UIViewController {
         view.backgroundColor = .white
         registerCell()
         setupCollectionView()
-//        setupNavigationItem()
     }
 }
 

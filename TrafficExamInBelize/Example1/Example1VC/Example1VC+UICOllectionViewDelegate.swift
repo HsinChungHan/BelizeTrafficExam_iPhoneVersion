@@ -150,8 +150,5 @@ extension Example1ViewController: InstructionCellDelegate{
         guard let currentIndexPath = currentIndexPath else {return}
         self.currentIndexPath = IndexPath(item: currentIndexPath.item + 1, section: 0)
         collectionView.scrollToItem(at: self.currentIndexPath!, at: .centeredHorizontally, animated: true)
-//        collectionView.scrollToItem(at: IndexPath(item: 12, section: 0), at: .centeredHorizontally, animated: true)
     }
-    
-    
 }

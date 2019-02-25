@@ -12,6 +12,7 @@ pod 'lottie-ios'
   pod 'Firebase/Auth'
   pod 'Firebase/Storage'
   pod 'Firebase/Messaging'
+  pod 'Charts'
   
   target 'TrafficExamInBelizeTests' do
     inherit! :search_paths
