@@ -29,7 +29,7 @@ enum AnimationViewName: String{
 }
 
 
-class Example1Cell:  BasicCell{
+class Example1Cell: BasicCell{
     var user: BelizeUser? {
         didSet{
             guard let user = user else {
@@ -107,6 +107,7 @@ class Example1Cell:  BasicCell{
        let label = UILabel()
         label.textColor = UIColor.darkGray
         label.font = UIFont.boldSystemFont(ofSize: 25)
+        label.numberOfLines = 0
         label.textAlignment = .center
         return label
     }()
@@ -127,6 +128,7 @@ class Example1Cell:  BasicCell{
         let button = UIButton.init(type: .system)
         button.backgroundColor = UIColor.appleGreen
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        button.titleLabel?.numberOfLines = 0
         button.addTarget(self, action: #selector(handleAnswerBtn), for: .touchUpInside)
         button.layer.cornerRadius = 10
         button.clipsToBounds = true
@@ -347,7 +349,7 @@ extension Example1Cell{
         wrongView.trafficSign = trafficSign
         wrongView.wrongAnswerDisappearBlackViewDelegate = self
         blackView.addSubview(wrongView)
-        wrongView.anchor(top: blackView.topAnchor, bottom: nil, left: blackView.leftAnchor, right: blackView.rightAnchor, topPadding: 120, bottomPadding: 0, leftPadding: 10, rightPadding: 10, width: 0, height: 580)
+        wrongView.anchor(top: blackView.topAnchor, bottom: nil, left: blackView.leftAnchor, right: blackView.rightAnchor, topPadding: 120, bottomPadding: 0, leftPadding: 10, rightPadding: 10, width: 0, height: UIScreen.main.bounds.height / 2)
         wrongView.layer.cornerRadius = 10.0
         wrongView.clipsToBounds = true
     }

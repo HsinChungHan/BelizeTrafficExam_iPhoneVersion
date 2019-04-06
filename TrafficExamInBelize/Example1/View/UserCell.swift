@@ -168,7 +168,7 @@ class UserCell: BasicCell {
         setupPieChartView()
         setupScrollToStartButton()
         setupCommentLabel()
-        setupFireworksAnimationView()
+//        setupFireworksAnimationView()
         
     }
 }
